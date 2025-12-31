@@ -1,0 +1,211 @@
+import React, { useEffect, useState } from "react"
+import axiosInstance from "../utils/axioInstance"
+import { useDispatch, useSelector } from "react-redux"
+import { signOutSuccess } from "../redux/slice/userSlice"
+import { useNavigate } from "react-router-dom"
+import { SIDE_MENU_DATA, USER_SIDE_MENU_DATA } from "../utils/data"
+import { updateProfileImage } from "../redux/slice/userSlice"
+
+
+const SideMenu = ({ activeMenu }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [SideMenuData, setSideMenuData] = useState([])
+  const { currentUser } = useSelector((state) => state.user)
+
+  const handleClick = (route) => {
+    if (route === "logout") {
+      handleLogut()
+      return
+    }
+
+    navigate(route)
+  }
+
+  const handleLogut = async () => {
+    try {
+      const response = await axiosInstance.post("/auth/sign-out")
+
+      if (response.data) {
+        dispatch(signOutSuccess())
+        navigate("/login")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (currentUser) {
+      setSideMenuData(
+        currentUser?.role === "admin" ? SIDE_MENU_DATA : USER_SIDE_MENU_DATA
+      )
+    }
+  }, [currentUser])
+
+  
+  const getInitials = (name) => {
+    if (!name) return "U"
+    const words = name.trim().split(" ")
+    if (words.length === 1) return words[0].substring(0, 2).toUpperCase()
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+  }
+
+  
+  const getAvatarColor = (name) => {
+    if (!name) return "bg-blue-500"
+    const colors = [
+      "bg-blue-500",
+      "bg-indigo-500",
+      "bg-purple-500",
+      "bg-pink-500",
+      "bg-rose-500",
+      "bg-orange-500",
+      "bg-amber-500",
+      "bg-emerald-500",
+      "bg-teal-500",
+      "bg-cyan-500",
+    ]
+    const index = name.charCodeAt(0) % colors.length
+    return colors[index]
+  }
+
+  
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const formData = new FormData()
+    formData.append("profileImage", file)
+
+    try {
+      const res = await axiosInstance.post("/auth/update-profile-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+
+      if (res.data?.profileImageUrl) {
+        dispatch(updateProfileImage(res.data.profileImageUrl))
+
+      }
+    } catch (error) {
+      console.error("Image Upload Failed:", error)
+    }
+  }
+
+  return (
+    <div className="w-64 h-screen fixed left-0 top-0 pt-12 flex flex-col bg-white lg:border-r lg:border-gray-200 overflow-hidden">
+      {/* Profile Section */}
+      <div className="p-6 border-b border-gray-100 flex-shrink-0">
+        <div className="flex flex-col items-center">
+        
+          <div className="relative mb-4 group">
+
+            
+            <input
+              type="file"
+              accept="image/*"
+              id="profileImageInput"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
+
+            <div
+              className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-gray-100 hover:ring-blue-200 
+                         cursor-pointer transition-all duration-300"
+              onClick={() => document.getElementById("profileImageInput").click()}
+            >
+              {currentUser?.profileImageUrl ? (
+                <img
+                  src={currentUser.profileImageUrl}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div
+                  className={`w-full h-full ${getAvatarColor(
+                    currentUser?.name
+                  )} flex items-center justify-center text-white text-2xl font-bold`}
+                >
+                  {getInitials(currentUser?.name)}
+                </div>
+              )}
+            </div>
+
+            
+            <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+          </div>
+
+          
+          {currentUser?.role === "admin" && (
+            <div className="mb-3 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs font-semibold shadow-sm">
+              Admin
+            </div>
+          )}
+
+          {/* User Info */}
+          <h5 className="text-lg font-bold text-gray-900 text-center mb-1">
+            {currentUser?.name || "User"}
+          </h5>
+          <p className="text-sm text-gray-500 text-center truncate max-w-full px-2">
+            {currentUser?.email || ""}
+          </p>
+        </div>
+      </div>
+
+      {/* Menu Items */}
+      <div className="flex-1 overflow-y-auto  px-3">
+        <nav className="space-y-1">
+          {SideMenuData.map((item, index) => {
+            const isActive = activeMenu === item.label
+            const Icon = item.icon
+
+            return (
+              <button
+                key={`menu_${index}`}
+                onClick={() => handleClick(item.path)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                  text-sm font-medium transition-all duration-200
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 shadow-sm"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                  }
+                  group relative overflow-hidden`}
+              >
+                {isActive && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-blue-500 to-indigo-600 rounded-r-full"></div>
+                )}
+
+                <div
+                  className={`flex-shrink-0 text-xl transition-transform duration-200
+                  ${isActive ? "scale-110" : "group-hover:scale-105"}`}
+                >
+                  <Icon />
+                </div>
+
+                <span className="flex-1 text-left">{item.label}</span>
+
+                {!isActive && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0
+                    to-indigo-50/0 group-hover:from-blue-50/50 group-hover:to-indigo-50/50 
+                    transition-all duration-200 -z-10 rounded-xl"></div>
+                )}
+              </button>
+            )
+          })}
+        </nav>
+      </div>
+
+      {/* Footer */}
+      <div className="p-4 border-t border-gray-100 flex-shrink-0">
+        <div className="text-center">
+          <p className="text-xs text-gray-400">Task Management System</p>
+          {/* <p className="text-xs text-gray-400 mt-1">v1.0.0</p> */}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default SideMenu
