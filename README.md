@@ -47,7 +47,7 @@ JWT Authentication
 
 ⚙️ Installation & Setup
 1️⃣ Clone Project
-git clone https://github.com/Amitkumarsahu1/Task-Management.git
+git clone https://github.com/Amitkumarsahu1/Task-Management-System.git
 cd task-management
 
 🖥 Backend Setup
@@ -107,8 +107,3 @@ Frontend: Signup form
 Backend: Register API → check token before assigning role
 
 
-🧪 Default Admin Login (Optional)
-You can also use the hard-coded admin login:
-
-email: admin@gmail.com
-password: admin123
