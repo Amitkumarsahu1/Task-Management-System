@@ -39,7 +39,7 @@ const ManageTasks = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [totalTasks, setTotalTasks] = useState(0)
-  const tasksPerPage = 8
+  const tasksPerPage = 9
 
   const navigate = useNavigate()
 
