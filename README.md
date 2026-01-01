@@ -106,4 +106,11 @@ This logic must be handled in:
 Frontend: Signup form
 Backend: Register API → check token before assigning role
 
+ADMIN_JOIN_CODE = 123456
+
+
+Admin Credentials:
+Email:admin@gmail.com
+pass:admin
+
 
