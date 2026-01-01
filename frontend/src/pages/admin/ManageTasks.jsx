@@ -35,7 +35,7 @@ const ManageTasks = () => {
 
   const [filterStatus, setFilterStatus] = useState("All")
 
-  // ✅ pagination
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [totalTasks, setTotalTasks] = useState(0)
@@ -126,13 +126,13 @@ const ManageTasks = () => {
           </div>
         </div>
 
-        {/* CONTENT */}
+        
         <div className="flex-1 flex flex-col">
           {isLoading ? (
             <SpinnerLoader />
           ) : allTasks.length > 0 ? (
             <>
-              {/* TASK GRID */}
+              
               <div className="flex-1 min-h-[600px]">
                 <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                   {allTasks.map((item) => (
@@ -163,7 +163,7 @@ const ManageTasks = () => {
                 </div>
               </div>
 
-              {/* PAGINATION (fixed at bottom) */}
+              
               {totalPages > 1 && (
                 <div className="mt-auto pt-8">
                   <Pagination

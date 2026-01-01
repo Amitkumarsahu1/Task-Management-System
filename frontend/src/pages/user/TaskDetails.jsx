@@ -211,7 +211,7 @@ const TaskDetails = () => {
                       Assigned By
                     </label>
                     <div className="flex items-center gap-3 mt-2">
-                      {/* Handle both array and object formats */}
+                      
                       {(() => {
                         const creator = Array.isArray(task.createdBy) ? task.createdBy[0] : task.createdBy;
                         
@@ -346,16 +346,15 @@ const TodoCheckList = ({ text, isChecked, onChange }) => {
 }
 
 const Attachment = ({ link, index, onClick }) => {
-  // Decode URL encoding (%20 -> space, etc.)
+ 
   const decodedLink = decodeURIComponent(link);
   
-  // Try to extract hostname if it's a valid URL, otherwise show the full decoded link
+  
   let displayLink;
   try {
     const url = new URL(link.startsWith('http') ? link : `https://${link}`);
     displayLink = url.hostname;
   } catch (e) {
-    // If it's not a valid URL, just show the decoded text
     displayLink = decodedLink;
   }
 

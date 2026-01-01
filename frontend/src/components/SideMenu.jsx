@@ -153,7 +153,7 @@ const SideMenu = ({ activeMenu }) => {
         </div>
       </div>
 
-      {/* Menu Items */}
+      
       <div className="flex-1 overflow-y-auto  px-3">
         <nav className="space-y-1">
           {SideMenuData.map((item, index) => {
@@ -201,7 +201,7 @@ const SideMenu = ({ activeMenu }) => {
       <div className="p-4 border-t border-gray-100 flex-shrink-0">
         <div className="text-center">
           <p className="text-xs text-gray-400">Task Management System</p>
-          {/* <p className="text-xs text-gray-400 mt-1">v1.0.0</p> */}
+          
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ const SelectedUsers = ({ selectedUser, setSelectedUser }) => {
     getAllUsers()
   }, [])
 
-  // ✅ Sync selected users when modal opens
+  
   useEffect(() => {
     if (isModalOpen) {
       setTempSelectedUser(selectedUser)
@@ -69,14 +69,14 @@ const SelectedUsers = ({ selectedUser, setSelectedUser }) => {
     return colors[name.charCodeAt(0) % colors.length]
   }
 
-  // Selected users full data
+  
   const selectedUsersData = allUsers.filter((user) =>
     selectedUser.includes(user._id)
   )
 
   return (
     <div className="space-y-4 mt-2">
-      {/* Add Members Button */}
+      
       {selectedUsersData.length === 0 && (
         <button
           onClick={() => setIsModalOpen(true)}
@@ -88,7 +88,7 @@ const SelectedUsers = ({ selectedUser, setSelectedUser }) => {
         </button>
       )}
 
-      {/* Selected Users Preview */}
+      
       {selectedUsersData.length > 0 && (
         <div
           className="flex items-center gap-3 cursor-pointer"

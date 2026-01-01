@@ -173,7 +173,7 @@ export const updateTask = async (req, res, next) => {
 
     const updatedTask = await task.save()
 
-    // Populate createdBy and assignedTo before sending response
+    
     await updatedTask.populate("createdBy", "name email profileImageUrl")
     await updatedTask.populate("assignedTo", "name email profileImageUrl")
 
@@ -225,7 +225,7 @@ export const updateTaskStatus = async (req, res, next) => {
 
     await task.save()
 
-    // Populate before sending response
+   
     await task.populate("createdBy", "name email profileImageUrl")
     await task.populate("assignedTo", "name email profileImageUrl")
 

@@ -82,7 +82,7 @@ const MyTask = () => {
 
   const handleStatusChange = (status) => {
     setFilterStatus(status)
-    setCurrentPage(1) // Reset to first page when changing filter
+    setCurrentPage(1) 
   }
 
   useEffect(() => {
@@ -136,7 +136,7 @@ const MyTask = () => {
 
         <hr className="mb-6"/>
 
-        {/* Task List - Flexible height */}
+        {/* Task List */}
         <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col">
           {loading ? (
             <div className="flex-1 flex items-center justify-center">
@@ -154,7 +154,7 @@ const MyTask = () => {
                     Showing {((currentPage - 1) * tasksPerPage) + 1} - {Math.min(currentPage * tasksPerPage, totalTasks)} of {totalTasks} tasks
                   </div>
 
-                  {/* Tasks Grid - Takes flexible space with min height */}
+                  
                   <div className="flex-1 min-h-[600px]">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                       {allTasks.map((item) => (
@@ -178,7 +178,7 @@ const MyTask = () => {
                     </div>
                   </div>
 
-                  {/* Pagination - Fixed at bottom */}
+                  
                   {totalPages > 1 && (
                     <div className="mt-8">
                       <Pagination

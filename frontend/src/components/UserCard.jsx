@@ -4,7 +4,7 @@ const UserCard = ({ userInfo }) => {
   const totalTasks = (userInfo?.pendingTasks || 0) + (userInfo?.inProgressTasks || 0) + (userInfo?.completedTasks || 0)
   const completionRate = totalTasks > 0 ? Math.round(((userInfo?.completedTasks || 0) / totalTasks) * 100) : 0
 
-  // Get initials from name
+  
   const getInitials = (name) => {
     if (!name) return "U"
     const words = name.trim().split(" ")
@@ -12,7 +12,7 @@ const UserCard = ({ userInfo }) => {
     return (words[0][0] + words[words.length - 1][0]).toUpperCase()
   }
 
-  // Get consistent random color based on name
+  
   const getAvatarColor = (name) => {
     if (!name) return "bg-blue-500"
     const colors = [
